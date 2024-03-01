@@ -1,0 +1,1 @@
+SET SCHEMA schema1; SET CURRENT SCHEMA schema2;

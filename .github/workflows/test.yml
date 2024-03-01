@@ -1,0 +1,105 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
+    types: ["opened", "reopened", "synchronize"]
+
+env:
+  CARGO_INCREMENTAL: 0
+  CARGO_TERM_COLOR: "always"
+  DIFF: 0
+  RUST_LOG: "off"
+
+jobs:
+  cargo-fmt:
+    name: Cargo fmt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cargo fmt -- --check
+
+  cargo-clippy:
+    name: Cargo clippy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cargo clippy
+
+  cargo-test:
+    name: Cargo test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cargo check
+      - run: cargo test
+
+  wasm-build:
+    name: Wasm build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Build wasm
+        run: ./scripts/build.sh
+
+      - run: npm pack
+        working-directory: pkg
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: pkg
+
+  node-test:
+    runs-on: ubuntu-latest
+    needs: wasm-build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: pkg/
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+
+      - run: node --test
+
+  deno-test:
+    runs-on: ubuntu-latest
+    needs: wasm-build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: pkg/
+
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - run: deno test --allow-read
+
+  bun-test:
+    runs-on: ubuntu-latest
+    needs: wasm-build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: pkg/
+
+      - uses: oven-sh/setup-bun@v1
+        name: Install bun
+
+      - run: bun test test_bun
