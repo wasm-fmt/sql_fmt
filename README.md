@@ -1,4 +1,4 @@
-[![npm](https://img.shields.io/npm/v/@wasm-fmt/sql_fmt)](https://www.npmjs.com/package/@wasm-fmt/sql_fmt) [![Test](https://github.com/wasm-fmt/biome_fmt/actions/workflows/test.yml/badge.svg)](https://github.com/wasm-fmt/biome_fmt/actions/workflows/test.yml)
+[![npm](https://img.shields.io/npm/v/@wasm-fmt/sql_fmt)](https://www.npmjs.com/package/@wasm-fmt/sql_fmt) [![Test](https://github.com/wasm-fmt/sql_fmt/actions/workflows/test.yml/badge.svg)](https://github.com/wasm-fmt/sql_fmt/actions/workflows/test.yml)
 
 # Install
 
