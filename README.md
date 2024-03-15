@@ -1,9 +1,17 @@
-[![npm](https://img.shields.io/npm/v/@wasm-fmt/sql_fmt)](https://www.npmjs.com/package/@wasm-fmt/sql_fmt) [![Test](https://github.com/wasm-fmt/sql_fmt/actions/workflows/test.yml/badge.svg)](https://github.com/wasm-fmt/sql_fmt/actions/workflows/test.yml)
+[![Test](https://github.com/wasm-fmt/sql_fmt/actions/workflows/test.yml/badge.svg)](https://github.com/wasm-fmt/sql_fmt/actions/workflows/test.yml)
 
 # Install
 
+[![npm](https://img.shields.io/npm/v/@wasm-fmt/sql_fmt)](https://www.npmjs.com/package/@wasm-fmt/sql_fmt)
+
 ```bash
 npm install @wasm-fmt/sql_fmt
+```
+
+[![jsr.io](https://jsr.io/badges/@fmt/sql-fmt)](https://jsr.io/@fmt/sql-fmt)
+
+```bash
+npx jsr add @fmt/sql-fmt
 ```
 
 # Usage
