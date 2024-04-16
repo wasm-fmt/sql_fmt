@@ -2,13 +2,13 @@
 
 # Install
 
-[![npm](https://img.shields.io/npm/v/@wasm-fmt/sql_fmt)](https://www.npmjs.com/package/@wasm-fmt/sql_fmt)
+[![npm](https://img.shields.io/npm/v/@wasm-fmt/sql_fmt?color=e38c00)](https://www.npmjs.com/package/@wasm-fmt/sql_fmt)
 
 ```bash
 npm install @wasm-fmt/sql_fmt
 ```
 
-[![jsr.io](https://jsr.io/badges/@fmt/sql-fmt)](https://jsr.io/@fmt/sql-fmt)
+[![jsr.io](https://jsr.io/badges/@fmt/sql-fmt?color=e38c00)](https://jsr.io/@fmt/sql-fmt)
 
 ```bash
 npx jsr add @fmt/sql-fmt
