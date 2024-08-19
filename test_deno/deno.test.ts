@@ -1,8 +1,8 @@
 import init, { format } from "../pkg/sql_fmt.js";
 
-import { assertEquals } from "https://deno.land/std@0.217.0/assert/mod.ts";
-import { walk } from "https://deno.land/std@0.217.0/fs/walk.ts";
-import { relative } from "https://deno.land/std@0.217.0/path/mod.ts";
+import { assertEquals } from "jsr:@std/assert";
+import { walk } from "jsr:@std/fs/walk";
+import { relative } from "jsr:@std/path";
 
 await init();
 
@@ -28,7 +28,7 @@ for await (const entry of walk(test_root, {
 		const expected = Deno.readTextFileSync(entry.path + ".snap");
 
 		Deno.test(test_name, () => {
-            const actual = format(input, entry.path);
+			const actual = format(input, entry.path);
 			assertEquals(actual, expected);
 		});
 	}
