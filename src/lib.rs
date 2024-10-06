@@ -13,7 +13,7 @@ pub fn format(input: &str, filename: &str, config: Option<Config>) -> Result<Str
         .map_err(|op| op.to_string())?
         .unwrap_or_default();
 
-    Ok(sqlformat::format(input, &QueryParams::None, config.into()))
+    Ok(sqlformat::format(input, &QueryParams::None, &config.into()))
 }
 
 #[wasm_bindgen(typescript_custom_section)]
@@ -73,7 +73,7 @@ struct SQLConfig {
     pub lines_between_queries: Option<u8>,
 }
 
-impl From<SQLConfig> for FormatOptions {
+impl<'a> From<SQLConfig> for FormatOptions<'a> {
     fn from(val: SQLConfig) -> Self {
         let mut config = FormatOptions::default();
 
@@ -86,9 +86,7 @@ impl From<SQLConfig> for FormatOptions {
             };
         }
 
-        if let Some(uppercase) = val.uppercase {
-            config.uppercase = uppercase;
-        }
+        config.uppercase = val.uppercase;
 
         if let Some(lines_between_queries) = val.lines_between_queries {
             config.lines_between_queries = lines_between_queries;
