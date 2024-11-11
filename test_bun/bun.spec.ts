@@ -1,23 +1,21 @@
 import { Glob } from "bun";
 import { expect, test } from "bun:test";
-import path from "node:path";
+import { chdir } from "node:process";
+import { fileURLToPath } from "node:url";
+
 import init, { format } from "../pkg/sql_fmt";
 
 await init();
 
-const test_root = Bun.fileURLToPath(new URL("../test_data", import.meta.url));
+const test_root = fileURLToPath(import.meta.resolve("../test_data"));
+chdir(test_root);
+
 const glob = new Glob("**/*.sql");
 
-for await (const input_path of glob.scan(test_root)) {
-	if (path.basename(input_path).startsWith(".")) {
-		continue;
-	}
-
-	const full_path = path.join(test_root, input_path);
-
+for await (const input_path of glob.scan()) {
 	const [input, expected] = await Promise.all([
-		Bun.file(full_path).text(),
-		Bun.file(full_path + ".snap").text(),
+		Bun.file(input_path).text(),
+		Bun.file(input_path + ".snap").text(),
 	]);
 
 	test(input_path, () => {
