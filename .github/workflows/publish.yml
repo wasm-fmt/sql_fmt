@@ -95,7 +95,7 @@ jobs:
           name: build
           path: pkg
 
-      - run: npx jsr publish
+      - run: npx jsr publish --allow-dirty
         working-directory: pkg/
 
   publish-github-release:
