@@ -47,10 +47,9 @@ extern "C" {
 }
 
 #[derive(Deserialize, Clone, Copy)]
+#[serde(rename_all = "lowercase")]
 enum IndentStyle {
-    #[serde(rename = "tab")]
     Tab,
-    #[serde(rename = "space")]
     Space,
 }
 
