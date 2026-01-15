@@ -122,7 +122,7 @@ dependencies = [
 
 [[package]]
 name = "sql_fmt"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "serde",
  "serde-wasm-bindgen",
