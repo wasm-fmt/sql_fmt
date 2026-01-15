@@ -1,25 +1,26 @@
+#!/usr/bin/env bun test
 import { Glob } from "bun";
 import { expect, test } from "bun:test";
-import { chdir } from "node:process";
-import { fileURLToPath } from "node:url";
 
-import init, { format } from "../pkg/sql_fmt";
+import init, { format } from "../pkg/sql_fmt_web.js";
 
 await init();
 
-const test_root = fileURLToPath(import.meta.resolve("../test_data"));
-chdir(test_root);
+const test_root = Bun.fileURLToPath(import.meta.resolve("../test_data"));
 
-const glob = new Glob("**/*.sql");
+for await (const case_name of new Glob("**/*.sql").scan({ cwd: test_root, dot: true })) {
+	if (case_name.startsWith(".")) {
+		test.skip(case_name, () => {});
+		continue;
+	}
 
-for await (const input_path of glob.scan()) {
-	const [input, expected] = await Promise.all([
-		Bun.file(input_path).text(),
-		Bun.file(input_path + ".snap").text(),
-	]);
+	const full_path = `${test_root}/${case_name}`;
+	const snap_path = full_path + ".snap";
 
-	test(input_path, () => {
-		const actual = format(input, input_path);
+	const [input, expected] = await Promise.all([Bun.file(full_path).text(), Bun.file(snap_path).text()]);
+
+	test(case_name, () => {
+		const actual = format(input);
 		expect(actual).toBe(expected);
 	});
 }

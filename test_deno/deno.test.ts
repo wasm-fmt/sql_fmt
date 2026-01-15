@@ -1,35 +1,26 @@
-import init, { format } from "../pkg/sql_fmt.js";
-
+#!/usr/bin/env deno test --allow-read --parallel
 import { assertEquals } from "jsr:@std/assert";
-import { walk } from "jsr:@std/fs/walk";
-import { relative } from "jsr:@std/path";
+import { expandGlob } from "jsr:@std/fs";
+import { fromFileUrl, relative } from "jsr:@std/path";
 
-await init();
+import { format } from "../pkg/sql_fmt_esm.js";
 
-const update = Deno.args.includes("--update");
+const test_root = fromFileUrl(import.meta.resolve("../test_data"));
 
-const test_root = new URL("../test_data", import.meta.url);
-
-for await (const entry of walk(test_root, {
-	includeDirs: false,
-	exts: ["sql"],
+for await (const { path: input_path } of expandGlob("**/*.sql", {
+	root: test_root,
 })) {
-	if (entry.name.startsWith(".")) {
+	const case_name = relative(test_root, input_path);
+	if (case_name.startsWith(".")) {
+		Deno.test({ name: case_name, ignore: true, fn: () => {} });
 		continue;
 	}
 
-	const input = Deno.readTextFileSync(entry.path);
+	const snap_path = input_path + ".snap";
+	const [input, expected] = await Promise.all([Deno.readTextFile(input_path), Deno.readTextFile(snap_path)]);
 
-	if (update) {
-		const actual = format(input, entry.path);
-		Deno.writeTextFileSync(entry.path + ".snap", actual);
-	} else {
-		const test_name = relative(test_root.pathname, entry.path);
-		const expected = Deno.readTextFileSync(entry.path + ".snap");
-
-		Deno.test(test_name, () => {
-			const actual = format(input, entry.path);
-			assertEquals(actual, expected);
-		});
-	}
+	Deno.test(case_name, () => {
+		const actual = format(input);
+		assertEquals(actual, expected);
+	});
 }
