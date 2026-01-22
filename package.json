@@ -1,0 +1,63 @@
+{
+	"name": "@wasm-fmt/sql_fmt",
+	"type": "module",
+	"collaborators": [
+		"magic-akari <akari.ccino@gmail.com>"
+	],
+	"description": "A WASM Based SQL Formatter",
+	"version": "0.2.0",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wasm-fmt/sql_fmt.git"
+	},
+	"homepage": "https://github.com/wasm-fmt/sql_fmt",
+	"types": "sql_fmt.d.ts",
+	"sideEffects": [
+		"./sql_fmt.js",
+		"./sql_fmt_node.js",
+		"./sql_fmt_esm.js"
+	],
+	"keywords": [
+		"wasm",
+		"sql",
+		"formatter"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"exports": {
+		".": {
+			"types": "./sql_fmt.d.ts",
+			"webpack": "./sql_fmt.js",
+			"deno": "./sql_fmt.js",
+			"bun": "./sql_fmt_node.js",
+			"module-sync": "./sql_fmt_node.js",
+			"node": "./sql_fmt_node.js",
+			"default": "./sql_fmt_esm.js"
+		},
+		"./esm": {
+			"types": "./sql_fmt.d.ts",
+			"default": "./sql_fmt_esm.js"
+		},
+		"./node": {
+			"types": "./sql_fmt.d.ts",
+			"default": "./sql_fmt_node.js"
+		},
+		"./bundler": {
+			"types": "./sql_fmt.d.ts",
+			"default": "./sql_fmt.js"
+		},
+		"./web": {
+			"types": "./sql_fmt_web.d.ts",
+			"default": "./sql_fmt_web.js"
+		},
+		"./vite": {
+			"types": "./sql_fmt_web.d.ts",
+			"default": "./sql_fmt_vite.js"
+		},
+		"./wasm": "./sql_fmt_bg.wasm",
+		"./package.json": "./package.json",
+		"./*": "./*"
+	}
+}

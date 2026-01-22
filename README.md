@@ -27,12 +27,6 @@ const formatted = format(input, "query.sql");
 console.log(formatted);
 ```
 
-## Node.js < 22.19
-
-```JavaScript
-import { format } from "@wasm-fmt/sql_fmt/node";
-```
-
 ## Web
 
 For web environments, you need to initialize WASM module manually:

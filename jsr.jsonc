@@ -1,0 +1,22 @@
+{
+	"$schema": "https://jsr.io/schema/config-file.v1.json",
+	"name": "@fmt/sql-fmt",
+	"version": "0.2.0",
+	"exports": {
+		".": "./sql_fmt.js",
+		"./esm": "./sql_fmt_esm.js",
+		"./node": "./sql_fmt_node.js",
+		"./bundler": "./sql_fmt.js",
+		"./web": "./sql_fmt_web.js"
+	},
+	"publish": {
+		"include": [
+			"sql_fmt_*",
+			"sql_fmt.*",
+			"README.md"
+		],
+		"exclude": [
+			"!*"
+		]
+	}
+}

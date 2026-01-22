@@ -12,7 +12,7 @@ for await (const { path: input_path } of expandGlob("**/*.sql", {
 })) {
 	const case_name = relative(test_root, input_path);
 	if (case_name.startsWith(".")) {
-		Deno.test({ name: case_name, ignore: true, fn: () => {} });
+		Deno.test.ignore(case_name, () => {});
 		continue;
 	}
 
