@@ -76,7 +76,7 @@ jobs:
             - uses: taiki-e/install-action@v2
               with:
                   tool: just
-            - uses: actions/download-artifact@v7
+            - uses: actions/download-artifact@v8
               with:
                   name: build
                   path: pkg/
