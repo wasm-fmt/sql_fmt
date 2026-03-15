@@ -98,3 +98,17 @@ jobs:
         steps:
             - uses: actions/checkout@v6
             - uses: actions/download-artifact@v7
+              with:
+                  name: build
+                  path: pkg/
+
+            - name: Package
+              working-directory: pkg
+              run: npm pack
+
+            - name: Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  files: |
+                      pkg/*.tgz
+                      pkg/*.wasm
