@@ -13,10 +13,13 @@
 		"include": [
 			"sql_fmt_*",
 			"sql_fmt.*",
-			"README.md"
+			"README.md",
+			"LICENSE-MIT",
+			"LICENSE-APACHE"
 		],
 		"exclude": [
 			"!*"
 		]
-	}
+	},
+	"license": "MIT OR Apache-2.0"
 }

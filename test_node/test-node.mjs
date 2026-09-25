@@ -5,7 +5,7 @@ import path from "node:path";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 
-import { format } from "../pkg/sql_fmt_node.js";
+import { createConfig, format, releaseConfig } from "../pkg/sql_fmt_node.js";
 
 const test_root = fileURLToPath(import.meta.resolve("../test_data"));
 
@@ -25,3 +25,20 @@ for await (const case_name of glob("**/*.sql", { cwd: test_root })) {
 		assert.equal(actual, expected);
 	});
 }
+
+test("inline config", () => {
+	assert.equal(format("select * from foo", { uppercase: true }), "SELECT\n  *\nFROM\n  foo");
+});
+
+test("registered config handle", () => {
+	const config = createConfig({ uppercase: true });
+	try {
+		assert.equal(format("select * from foo", config), "SELECT\n  *\nFROM\n  foo");
+	} finally {
+		releaseConfig(config);
+	}
+});
+
+test("invalid JSON config is rejected during registration", () => {
+	assert.throws(() => createConfig("{"), /EOF while parsing an object/);
+});

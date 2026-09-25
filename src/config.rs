@@ -1,18 +1,5 @@
 use serde::Deserialize;
 use sqlformat::FormatOptions;
-use wasm_bindgen::prelude::*;
-
-#[wasm_bindgen(typescript_custom_section)]
-const TS_Config: &'static str = r#"
-import type { Config } from "./sql_fmt_config.d.ts";
-export type * from "./sql_fmt_config.d.ts";
-"#;
-
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(typescript_type = "Config")]
-    pub type Config;
-}
 
 #[derive(Deserialize, Clone, Copy)]
 #[serde(rename_all = "lowercase")]
@@ -37,6 +24,7 @@ pub struct LayoutConfig {
     pub indent_width: Option<u8>,
 }
 
+#[bridge::config]
 #[derive(Deserialize, Clone, Default)]
 pub struct SQLConfig {
     #[serde(flatten)]
@@ -65,6 +53,16 @@ pub struct SQLConfig {
     pub joins_as_top_level: Option<bool>,
 
     pub dialect: Option<Dialect>,
+}
+
+impl bridge::Config for SQLConfig {
+    fn decode(bytes: &[u8]) -> Result<Self, String> {
+        if bytes.is_empty() {
+            return Ok(Self::default());
+        }
+
+        serde_json::from_slice(bytes).map_err(|err| err.to_string())
+    }
 }
 
 impl SQLConfig {

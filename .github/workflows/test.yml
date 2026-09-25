@@ -31,6 +31,13 @@ jobs:
             - uses: taiki-e/install-action@v2
               with:
                   tool: dprint,taplo,just
+            - uses: denoland/setup-deno@v2
+              with:
+                  deno-version: 2.x
+            - uses: actions/setup-node@v7
+              with:
+                  node-version-file: ".node-version"
+            - run: npm install --ignore-scripts --no-package-lock
             - run: just check
             - run: just test-rust
 
@@ -51,7 +58,11 @@ jobs:
             - uses: actions/checkout@v7
             - uses: taiki-e/install-action@v2
               with:
-                  tool: wasm-pack,just
+                  tool: just
+            - uses: actions/setup-node@v7
+              with:
+                  node-version-file: ".node-version"
+            - run: npm install --ignore-scripts --no-package-lock
             - name: Build wasm
               run: just build
             - run: npm pack
@@ -81,7 +92,6 @@ jobs:
                   name: build
                   path: pkg/
             - uses: actions/setup-node@v7
-              if: matrix.runtime == 'node'
               with:
                   node-version-file: ".node-version"
             - uses: denoland/setup-deno@v2
@@ -92,4 +102,5 @@ jobs:
               if: matrix.runtime == 'bun'
               name: Install bun
 
+            - run: npm install --ignore-scripts --no-package-lock
             - run: just test-${{ matrix.runtime }}
