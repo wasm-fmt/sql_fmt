@@ -131,18 +131,18 @@ checksum = "39ec24b3121d976906ece63c9daad25b85969647682eee313cb5779fdd69e14e"
 
 [[package]]
 name = "wasm-fmt-fdk"
-version = "0.0.1"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "50dea28f34d984ed37979d2e487483878dc39b747b6f0eef7223d8c3bd72330e"
+checksum = "ad3a007925ed43a29fb2bfbed8511da9292a7747aa4d7c7967dc7b990cd55906"
 dependencies = [
  "wasm-fmt-fdk-macros",
 ]
 
 [[package]]
 name = "wasm-fmt-fdk-macros"
-version = "0.0.1"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2f4a85c74f5fd6435c691e059a77c982b9fc5afa999364357b9f4786ddef376b"
+checksum = "7bb5d5ad54b41b25c0fa21834f925e4b1ccda36d274440279fa34a417b67f1cf"
 dependencies = [
  "proc-macro2",
  "quote",
